@@ -53,7 +53,7 @@ satisfying the conditions.
 
 ## Motivation
 
-A short description of the motivation behind the creation and maintenance of the project. This should explain **why** the project exists.
+I started realizing that it was very important for business and start upers to test their ideas. 
 
 ## Installation
 
