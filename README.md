@@ -18,6 +18,7 @@ Thus we have encountered a big and yet unsolved problem. That of a specific tool
 empowered by technology which will be able to perform queries give intelligent data
 concerning target audience of a specific business type.
 ***1.2 Why is it important ?***
+
 If a proper solution would be given to this problem then there we might have other
 implications as follows :
 (A tool providing the solution of the problem may be helpful to below target groups)
@@ -60,11 +61,11 @@ Provide code examples and explanations of how to get the project.
 
 ## API Reference
 
-> Facebook Graph Api 
-> Python Language [FLASK]
-> Data Structures
-> Data Mining Concepts (RAKE)
-> Mongo DB 
+- Facebook Graph Api 
+- Python Language [FLASK]
+- Data Structures
+- Data Mining Concepts (RAKE)
+- Mongo DB 
 
 ## Install 
 - Clone repository
@@ -74,9 +75,9 @@ Provide code examples and explanations of how to get the project.
 (After you have installed all the needed python packages )
 
 You can try : 
-*localhost:5000 ->Agreement
-*localhost:5000/analyzer  -> Analyzes facebook profile and adds the user indexation into the queue 
-*localhost:5000/filter -> Filtering and producing heat maps and lists
+-localhost:5000 ->Agreement
+-localhost:5000/analyzer  -> Analyzes facebook profile and adds the user indexation into the queue 
+-localhost:5000/filter -> Filtering and producing heat maps and lists
 
 
 
