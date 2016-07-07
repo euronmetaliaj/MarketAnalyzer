@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Facebook Analyzer</title>
+
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+
+
+    <style>
+
+
+        #content {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+
+        }
+
+        body {
+            background-image: url({{ url_for("static", filename="img/filtering.jpg" )}});
+        }
+
+        .modal-dialog{
+            position: relative;
+            display: table; //This is important
+        overflow-y: auto;
+            overflow-x: auto;
+            width: auto;
+            min-width: 300px;
+        }
+
+        .modal-content {
+            height: 99%;
+            background-color: #888888;
+        }
+
+        .modal-header {
+            color: white;
+            text-align: center;
+            background-color: #666666;
+        }
+
+        .modal-body {
+            background-color: #888888;
+            color: white;
+            text-align: center;
+        }
+
+        #myCarousel {
+            background-color: white;
+            color: black;
+        }
+
+        .carousel-control.left, .carousel-control.right {
+            background-image: none;
+        }
+
+        .well {
+            color: #cacdd1;
+            background-color: #2c323c;
+        }
+
+    </style>
+</head>
+<body>
+<div class="ibox-title">
+
+
+    <div id="content">
+        <div class="text-center" style="color: #cacdd1">
+            <h2>Analyze your Facebook activity</h2>
+        </div>
+        <div class="container"></div>
+        <div class="well">
+
+            <p class="text-center">
+
+                <span style="font-style: italic">In order to analyze your Facebook activity, we need a Facebook token.</span> <br>
+                By providing us a Facebook Token, you agree to share with us certain information that we need to offer you our services.
+                <br>
+                The information provided doesn't violate the user's privacy, but nevertheless we promise that it will remain strictly confidential.
+                <br>
+                You can learn how to retrieve the Facebook token
+                <a href="#helpModal" data-toggle="modal" data-target="#helpModal">here</a>.
+                <br> <br>
+                 <span style="font-style: italic">The analyze should take up to 1 minute.</span>
+            </p>
+        </div>
+        <form class="form-inline text-center" role="form" action="#"
+              method="post">
+
+            <div class="form-group">
+                <input type="text" class="form-control" id="token" name="token" placeholder="Facebook Token" size="132"
+                       required>
+                <button class="btn btn-success" type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+
+    <div id="helpModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">How to retrieve Facebook Token</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        To open Facebook Graph API, click on the link below: <br>
+                        <a href="https://developers.facebook.com/tools/explorer/" target="_blank" style="color: darkred">
+                            https://developers.facebook.com/tools/explorer/</a> <br>
+                        Log in on Facebook if not already logged in.
+                    </p>
+
+                    <div class="container">
+                        <br>
+                        <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
+                            <!-- Indicators -->
+                            <ol class="carousel-indicators">
+                                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                                <li data-target="#myCarousel" data-slide-to="1"></li>
+                                <li data-target="#myCarousel" data-slide-to="2"></li>
+                                <li data-target="#myCarousel" data-slide-to="3"></li>
+                                <li data-target="#myCarousel" data-slide-to="4"></li>
+                            </ol>
+
+                            <!-- Wrapper for slides -->
+                            <div class="carousel-inner" role="listbox">
+                                <div class="item active">
+                                    <h4>1. Click on Get Token</h4>
+                                    <img class="img-responsive center-block" src="{{ url_for('static', filename='img/step1.png') }}" alt="Step 1" width="993" height="765">
+                                </div>
+
+                                <div class="item">
+                                    <h4>2. Click on Get User Access Token</h4>
+                                    <img class="img-responsive center-block" src="{{ url_for('static', filename='img/step2.png') }}" alt="Step 2" width="1061" height="768">
+                                </div>
+
+                                <div class="item text-center">
+                                    <h4>3. Select email, user_likes, user_location and user_posts and click on Get Access Token</h4>
+                                    <img class="img-responsive center-block" src="{{ url_for('static', filename='img/step3.png') }}" alt="Step 3" width="603" height="553">
+                                </div>
+
+                                <div class="item text-center">
+                                    <h4>4. Confirm the action by clicking Okay</h4>
+                                    <img class="img-responsive center-block" src="{{ url_for('static', filename='img/step4.png') }}" alt="Step 4" width="598" height="483">
+                                </div>
+
+                                <div class="item text-center">
+                                    <h4>5. Copy the generated token and paste it in the Facebook Token field of this page</h4>
+                                    <img class="img-responsive center-block" src="{{ url_for('static', filename='img/step5.png') }}" alt="Step 5" width="991" height="768">
+                                </div>
+                            </div>
+
+                            <!-- Left and right controls -->
+                            <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+                                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

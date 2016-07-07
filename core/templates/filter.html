@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Filter</title>
+
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/jquery.steps.css') }}" rel="stylesheet">
+{#    <link href="{{ url_for('static', filename='css/plugins/iCheck/custom.css') }}" rel="stylesheet">#}
+    <link href="{{ url_for('static', filename='css/plugins/iCheck/polaris/polaris.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/select2.min.css') }}" rel="stylesheet" />
+
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.steps.js') }}"></script>
+    <script src="{{ url_for('static',filename='js/plugins/iCheck/icheck.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/select2.js') }}"></script>
+
+
+    <style>
+
+        #content {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+            width: 60%;
+        }
+
+        .well {
+            color: #cacdd1;
+            background-color: #2c323c;
+        }
+
+        body {
+            background-image: url({{ url_for("static", filename="img/filtering.jpg" )}});
+        }
+
+
+    </style>
+</head>
+<body>
+
+<div id="content">
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
+            <div class="well">
+                <h3 class="text-center">Filter users</h3>
+                <form role="form" class="shake" method="post" action="{{ url_for('main.results') }}">
+                    <div class="form-group">
+                        <label for="location" class="h4">Location</label>
+                        <input type="text" class="form-control" id="location" placeholder="Start Typing" required>
+                    </div>
+
+                    <div id="locations"></div>
+
+                    <div class="form-group">
+                        <label for="category" class="h4">Category</label>
+                        <input type="text" class="form-control" id="category" placeholder="Start Typing">
+                    </div>
+
+                    <div id="categories"></div>
+
+                    <div class="form-group" >
+                        <h3>Keywords</h3>
+                        <select class="form-control select2" multiple="multiple" id="keywords" style="width: 100%" name="keywords" style=>
+                            <option>sports</option>
+{#                            <option>fashion</option>#}
+                            <option>politics</option>
+                        </select>
+                        <small>Type in keywords and press enter or ',' to pass to the other one.</small>
+                    </div>
+
+                    <div class="form-group radio i-checks">
+                        <h4>Results Type</h4>
+                        <label>
+                            <input type="radio" value="heatmap" name="results_type" id="heatmap"> Heat Map
+                        </label>
+                        <label>
+                            <input type="radio" value="list" name="results_type"> List
+                        </label>
+                    </div>
+
+                    <button type="submit" id="form-submit" class="btn btn-success btn-lg pull-right ">Submit</button>
+                    <div id="msgSubmit" class="h3 text-center hidden"></div>
+                    <div class="clearfix"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#location").keyup(function(){
+                    $('#locations').load("{{ url_for('main.location_ajax') }}?user_input="+$(this).val()).delay(5000);
+                }
+        );
+
+        $("#category").keyup(function(){
+                    $('#categories').load("{{ url_for('main.category_ajax') }}?user_input="+$(this).val()).delay(5000);
+                }
+        );
+
+        $("#keywords").select2({
+            tags: true,
+            tokenSeparators: [' ']
+        });
+
+        $('.i-checks').iCheck({
+            checkboxClass: 'icheckbox_polaris',
+            radioClass: 'iradio_polaris'
+        });
+
+        $('#heatmap').iCheck('check');
+
+
+    });
+
+
+</script>
+
+<script type="text/javascript">
+    $(document).ajaxComplete(function(){
+        $('.i-checks').iCheck({
+            checkboxClass: 'icheckbox_polaris',
+            radioClass: 'iradio_polaris'
+        });
+
+        $('#heatmap').iCheck('check');
+    });
+</script>
+
+</body>
+</html>

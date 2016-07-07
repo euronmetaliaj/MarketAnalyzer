@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+
+
+<!-- Site: hackforums.ru | E-mail: abuse@hackforums.ru | Skype: h2osancho -->
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+
+
+
+
+
+    <link href="{{ url_for('static', filename='css/animate.css') }}" rel="stylesheet">
+{#    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">#}
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+    <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+    <style>
+        #map { height: 100vh; }
+        body { font: 16px/1.4 "Helvetica Neue", Arial, sans-serif; }
+        .ghbtns { position: relative; top: 4px; margin-left: 5px; }
+        a { color: #0077ff; }
+    </style>
+</head>
+
+<body >
+
+    <div style="width: 100%; height: 100%; position: relative;">
+        <div style="position:absolute; top:2%; left:4%; z-index: 10;">
+            <div class="btn-group">
+                <a href="{{ url_for('main.filtering') }}"><button type="button" class="btn btn-default">Filter Again</button></a>
+                <a href="{{ url_for('main.analyzer') }}"><button type="button" class="btn btn-default">Be part of the Application</button></a>
+                <a href="{{ url_for('main.feedback') }}"><button type="button" class="btn btn-default">Feedback</button></a>
+            </div>
+        </div>
+        <div id="map" style="z-index: 1;"></div>
+
+
+<script src="{{ url_for('static', filename='js/leaflet-heat.js') }}"></script>
+{#<script src="http://leaflet.github.io/Leaflet.markercluster/example/realworld.10000.js"></script>#}
+<script>
+
+var map = L.map('map').setView([41.3275, 19.8189], 12);
+
+var tiles = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+    attribution: '&copy;  Euron Metaliaj',
+}).addTo(map);
+
+var addressPoints = {{ addressPoints }}
+
+addressPoints = addressPoints.map(function (p) { return [p[0], p[1]]; });
+
+var heat = L.heatLayer(addressPoints).addTo(map);
+
+</script>
+<!-- Mainly scripts -->
+<script src="{{ url_for('static', filename='js/jquery-2.1.1.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+
+</body>
+
+</html>

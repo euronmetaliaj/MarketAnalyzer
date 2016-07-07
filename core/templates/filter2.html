@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+
+
+<!-- Site: hackforums.ru | E-mail: abuse@hackforums.ru | Skype: h2osancho -->
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/normalize.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/jquery.steps.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/plugins/iCheck/custom.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/select2.min.css') }}" rel="stylesheet" />
+
+
+
+    <script src="{{ url_for('static', filename='js/jquery-1.9.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/modernizr-2.6.2.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.cookie-1.3.1.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.steps.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/plugins/validate/jquery.validate.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/select2.js') }}"></script>
+
+
+    <!-- iCheck -->
+    <script src="{{ url_for('static',filename='js/plugins/iCheck/icheck.min.js') }}"></script>
+
+    <style>
+        #map {
+            height: 100vh;
+        }
+
+        body {
+            font: 16px/1.4 "Helvetica Neue", Arial, sans-serif;
+        }
+
+        .ghbtns {
+            position: relative;
+            top: 4px;
+            margin-left: 5px;
+        }
+
+        a {
+            color: #0077ff;
+        }
+
+
+    </style>
+</head>
+
+<body style="background-image: url({{ url_for("static", filename="img/filtering.jpg" ) }});">
+<div style="width: 100%; height: 100%; position: relative;">
+    <div style="position:absolute; top:2%; left:4%; z-index: 10;">
+        <div class="btn-group">
+            <a href="{{ url_for('main.filtering') }}">
+                <button type="button" class="btn btn-default">Filter Again</button>
+            </a>
+            <a href="{{ url_for('main.analyzer') }}">
+                <button type="button" class="btn btn-default">Be part of the Application</button>
+            </a>
+            <a href="{{ url_for('main.feedback') }}">
+                <button type="button" class="btn btn-default">Feedback</button>
+            </a>
+        </div>
+    </div>
+    <div id="map" style="z-index: 1;">
+        <script>
+            $(function () {
+                $("#wizard").steps({
+                    headerTag: "h2",
+                    bodyTag: "section",
+                    transitionEffect: "slideLeft",
+                    stepsOrientation: "horizontal",
+
+                    onStepChanging: function (event, currentIndex, newIndex) {
+                        // Always allow going backward even if the current step contains invalid fields!
+                        if (currentIndex > newIndex) {
+                            return true;
+                        }
+
+                        var form = $('#form');
+
+                        // Disable validation on fields that are disabled or hidden.
+                        form.validate().settings.ignore = ":disabled,:hidden";
+
+                        // Start validation; Prevent going forward if false
+                        return form.valid();
+                    },
+                    onStepChanged: function (event, currentIndex, priorIndex) {
+
+                        // Suppress (skip) "Warning" step if the user is old enough and wants to the previous step.
+                        if (currentIndex === 2 && priorIndex === 3) {
+                            $(this).steps("previous");
+                        }
+                    },
+
+                    onFinishing: function (event, currentIndex) {
+                        var form = $('#form');
+
+                        // Disable validation on fields that are disabled.
+                        // At this point it's recommended to do an overall check (mean ignoring only disabled fields)
+                        form.validate();
+
+                        // Start validation; Prevent form submission if false
+                        return form.valid();
+                    },
+                    onFinished: function (event, currentIndex) {
+                        var form = $('#form');
+
+                        // Submit form input
+                        form.submit();
+                    }
+                });
+
+
+            });
+        </script>
+        <form method="POST" action="{{ url_for("main.results") }}" role="form" class="container"
+              style="border-radius: 5px;  position:absolute;left: 50%;top: 50%;-webkit-transform: translate(-50%, -50%);transform: translate(-50%, -50%);" id="form">
+
+            <div id="wizard">
+                <h2>Location</h2>
+                <section>
+                    <h3>Choose the location of users</h3>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Start Typing" id="location">
+                    </div>
+
+                    <div id="locations">
+
+                    </div>
+
+                </section>
+
+                <h2>Category</h2>
+                <section>
+                    <h3>Choose the category</h3>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Start Typing" id="category">
+                    </div>
+
+                    <div id="categories">
+
+                    </div>
+                </section>
+
+                <h2>Keywords</h2>
+                <section>
+                    <h3>Choose the keywords</h3>
+                    <select class="form-control select2" multiple="multiple" id="keywords" style="width: 100%" name="keywords">
+                        <option>sports</option>
+                        <option>fashion</option>
+                        <option>politics</option>
+                    </select>
+                    <small>Type in keywords and press enter or ',' to pass to the other one.</small>
+                </section>
+
+                <h2>Results Type</h2>
+                <section>
+                    <h3>Choose the type of representation for the filtered results</h3>
+                    <div class="radio i-checks">
+                        <label>
+                            <input type="radio" value="heatmap" name="results_type" id="heatmap"> Heat Map
+                        </label>
+                        <label>
+                            <input type="radio" value="list" name="results_type"> List
+                        </label>
+                    </div>
+
+
+                </section>
+            </div>
+        </form>
+
+
+        {#                <br><br>#}
+        {#                <div class="form-group">#}
+        {#                   <div>#}
+        {#                        <input type="text" class="form-control" id="" placeholder="Location">#}
+        {#                    </div>#}
+        {#                </div>#}
+        {#                <div class="form-group">#}
+        {#                   <div>#}
+        {#                        <input type="text" class="form-control" id="" placeholder="Choose Categories">#}
+        {#                    </div>#}
+        {#                </div>#}
+        {#                <div class="form-group">#}
+        {#                    <div >#}
+        {#                        <input type="text" class="form-control" id="" placeholder="Start Typing">#}
+        {#                    </div>#}
+        {#                </div>#}
+        {#                <div class="form-group">#}
+        {#                    <div >#}
+        {#                        <input type="text" class="form-control" id="" placeholder="Keyword">#}
+        {#                    </div>#}
+        {#                </div>#}
+        {##}
+        {#                <hr>#}
+        {#                <div class="form-group" >#}
+        {#                    <div>#}
+        {#                            <button type="submit" class="btn btn-primary pull-right"><img class="img-responsive pull-right" src="{{ url_for('static', filename='img/filter.png') }}" width="25px" height="25px" alt="Image">#}
+        {#                    		</button>#}
+        {#                    </div>#}
+        {#                </div>#}
+        {#                <br><br><br>#}
+        {#            </form>#}
+
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#location").keyup(function(){
+                    $('#locations').load("{{ url_for('main.location_ajax') }}?user_input="+$(this).val()).delay(5000);
+                }
+        );
+
+        $("#category").keyup(function(){
+                    $('#categories').load("{{ url_for('main.category_ajax') }}?user_input="+$(this).val()).delay(5000);
+                }
+        );
+
+        $("#keywords").select2({
+            tags: true,
+            tokenSeparators: [',', ';']
+        });
+
+        $('.i-checks').iCheck({
+            checkboxClass: 'icheckbox_square-green',
+            radioClass: 'iradio_square-green'
+        });
+
+        $('#heatmap').iCheck('check');
+
+
+    });
+
+
+</script>
+
+<script type="text/javascript">
+    $(document).ajaxComplete(function(){
+        $('.i-checks').iCheck({
+            checkboxClass: 'icheckbox_square-green',
+            radioClass: 'iradio_square-green'
+        });
+
+        $('#heatmap').iCheck('check');
+    });
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Thank you!</title>
+
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+
+
+    <style>
+
+        #content {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+
+        }
+
+        body {
+            background-image: url({{ url_for("static", filename="img/filtering.jpg" )}});
+        }
+
+        .well {
+            color: #cacdd1;
+            background-color: #2c323c;
+        }
+
+    </style>
+</head>
+<body>
+
+
+<div id="content">
+    <div class="container"></div>
+    <div class="well">
+        <h3 class="text-center">
+            Thank you for your feedback!
+        </h3>
+
+    </div>
+</div>
+
+</body>
+</html>

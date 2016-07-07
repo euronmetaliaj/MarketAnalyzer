@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Site: hackforums.ru | E-mail: abuse@hackforums.ru | Skype: h2osancho -->
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='font-awesome/css/font-awesome.css') }}" rel="stylesheet">
+
+
+    <!-- Gritter -->
+    <link href="{{ url_for('static', filename='js/plugins/gritter/jquery.gritter.css') }}" rel="stylesheet">
+
+    <link href="{{ url_for('static', filename='css/animate.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+
+
+    <!-- Gritter -->
+    <link href="{{ url_for('static', filename='css/plugins/nouslider/nouislider.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/plugins/ionRangeSlider/ion.rangeSlider.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/plugins/ionRangeSlider/ion.rangeSlider.skinFlat.css') }}"
+          rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/plugins/iCheck/custom.css') }}" rel="stylesheet">
+
+
+</head>
+
+<body class="mini-navbar ">
+
+<div id="wrapper">
+
+    <div id="page-wrapper" class="gray-bg">
+
+
+        <div class="wrapper wrapper-content  animated fadeInRight article">
+            <div class="row">
+                <div class="col-lg-10 col-lg-offset-1">
+                    <div class="ibox">
+                        <div class="ibox-content">
+                            <div class="text-center article-title">
+                                <span class="text-muted"><i class="fa fa-clock-o"></i> {{ today }}</span>
+                                <h1>
+                                    Agreement
+                                </h1>
+                                <h2>
+                                    Basic Information and Usage
+                                </h2>
+                            </div>
+                            <p>
+
+                            </p>
+                            <p>
+
+                                This software aims to produce heat maps of potential buyers analyzing their social
+                                profile tastes.
+                                As the time passes the results will be more exact.
+                                Since it is in the development stages we are convinced we need your support.
+                                For any suggestion please contact to <b>euron.metaliaj@gmail.com</b>
+                            </p>
+
+                            <hr>
+                            
+                            <div class="row">
+                                <hr>
+                                <a href="{{ url_for('main.filtering') }}">
+                                    <button type="submit" class=" btn pull-right btn-success">
+                                        <h3>
+                                            Accept
+                                        </h3>
+                                    </button>
+                                    </a>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+
+    </div>
+</div>
+
+
+<!-- Mainly scripts -->
+<script src="{{ url_for('static', filename='js/jquery-2.1.1.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/plugins/metisMenu/jquery.metisMenu.js') }}"></script>
+<script src="{{ url_for('static', filename='js/plugins/slimscroll/jquery.slimscroll.min.js') }}"></script>
+
+<!-- Peity -->
+<script src="{{ url_for('static', filename='js/plugins/peity/jquery.peity.min.js') }}"></script>
+
+<!-- Custom and plugin javascript -->
+<script src="{{ url_for('static', filename='js/inspinia.js') }}"></script>
+
+<!-- jQuery UI -->
+<script src="{{ url_for('static', filename='js/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
+
+
+<!-- Gitter -->
+<script src="{{ url_for('static', filename='js/plugins/gritter/jquery.gritter.min.js') }}"></script>
+
+</body>
+
+
+<!-- Site: hackforums.ru | E-mail: abuse@hackforums.ru | Skype: h2osancho -->
+</html>>

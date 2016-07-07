@@ -1,0 +1,13 @@
+{% for location in locations %}
+    <div class="radio i-checks">
+        <label>
+            <input class="location" type="radio" value="{{ location }}" name="location"> {{ location }}
+        </label>
+    </div>
+
+
+{% else %}
+    <div class="text-center">
+        No location found.
+    </div>
+{% endfor %}

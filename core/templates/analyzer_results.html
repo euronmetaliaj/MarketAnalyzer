@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Analyzer Results</title>
+
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='font-awesome/css/font-awesome.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/morris.css') }}" rel="stylesheet">
+
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/raphael.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/morris.js') }}"></script>
+
+
+
+    <style>
+
+
+        #content {
+            width: 40%;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            -webkit-transform: translate(-70%, -70%);
+            transform: translate(-50%, -50%);
+
+        }
+
+        body {
+            background-image: url({{ url_for("static", filename="img/filtering.jpg" )}});
+        }
+
+        table {
+            font-size: 10pt;
+        }
+
+        .well {
+            color: #cacdd1;
+            background-color: #2c323c;
+        }
+
+    </style>
+</head>
+<body>
+
+
+<div id="content">
+    <div class="container"></div>
+    <div class="well">
+        <h1 class="text-center">Facebook Analyze for {{ user }}</h1>
+        <table class="table">
+            <thead></thead>
+            <tbody>
+
+            <tr>
+                <th>Number of posts analyzed: </th>
+                <td>{{ number_of_posts }}</td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <th>Most Likes: </th>
+                <td>
+                    <i class="fa fa-thumbs-up"></i> {{ top_likes[0][1] }}, {{ top_likes[0][0] }}
+                </td>
+                <td>
+                    <a id="user_likes_button" ><i class="fa fa-angle-down"></i> Show More</a>
+                </td>
+            </tr>
+            <tr id="user_likes_row" style="display: none">
+                <td></td>
+                <td>
+                    {% for user, points in top_likes[1:10] %}
+                        <span><i class="fa fa-thumbs-up"></i> {{ points }}, {{ user }}</span> <br>
+                    {% endfor %}
+                </td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <th>Most Comments: </th>
+                {% if top_comments|length != 0 %}
+                <td>
+                    <i class="fa fa-comment"></i> {{ top_comments[0][1] }}, {{ top_comments[0][0] }}
+                </td>
+                <td>
+                    <a id="user_comments_button" ><i class="fa fa-angle-down"></i> Show More</a>
+                </td>
+                {% else %}
+                <td>
+                    No comments found.
+                </td>
+                <td></td>
+                {% endif %}
+            </tr>
+            <tr id="user_comments_row" style="display: none">
+                <td></td>
+                <td>
+                    {% for user, points in top_comments[1:10] %}
+                        <span><i class="fa fa-comment"></i> {{ points }}, {{ user }}</span> <br>
+                    {% endfor %}
+                </td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <th>Most Liked Post: </th>
+                <td>
+                    <i class="fa fa-thumbs-up"></i> {{ most_liked_posts[0][1]  }}, <a href="{{ post_links[most_liked_posts[0][0]] }}" target="_blank">Facebook Link</a>
+                </td>
+                <td>
+                    <a id="post_likes_button" ><i class="fa fa-angle-down"></i> Show More</a>
+                </td>
+            </tr>
+            <tr id="post_likes_row" style="display: none">
+                <td></td>
+                <td>
+                    {% for post, points in most_liked_posts[1:10] %}
+                        <span><i class="fa fa-thumbs-up"></i> {{ points }},
+                            <a href="{{ post_links[post] }}" target="_blank">Facebook Link</a>
+                        </span> <br>
+                    {% endfor %}
+                </td>
+                <td></td>
+            </tr>
+
+            <tr>
+                <th>Most Commented Post: </th>
+                {% if most_commented_posts|length != 0 %}
+                <td>
+                    <i class="fa fa-comment"></i> {{ most_commented_posts[0][1] }}, <a href="{{ post_links[most_commented_posts[0][0]] }}" target="_blank">Facebook Link</a>
+                </td>
+                <td>
+                    <a id="post_comments_button" ><i class="fa fa-angle-down"></i> Show More</a>
+                </td>
+                {% else %}
+                <td>
+                    No comments found.
+                </td>
+                <td></td>
+                {% endif %}
+            </tr>
+            <tr id="post_comments_row" style="display: none">
+                <td></td>
+                <td>
+                    {% for post, points in most_commented_posts[1:10] %}
+                        <span><i class="fa fa-comment"></i> {{ points }},
+                            <a href="{{ post_links[post] }}" target="_blank">Facebook Link</a>
+                        </span> <br>
+                    {% endfor %}
+                </td>
+                <td></td>
+            </tr>
+            </tbody>
+        </table>
+        <div id="line-chart" style=""></div>
+    </div>
+</div>
+
+<script>
+    $('document').ready(function() {
+        $('#user_likes_button').click(function() {
+            var $target_row = $('#user_likes_row');
+            var $button = $(this);
+            var icon = $(this).children("i");
+
+            $target_row.slideToggle(10, function() {
+                $button.text(($target_row.is(':visible') ? ' Hide' : ' Show More'));
+                $button.prepend(icon.toggleClass('fa-angle-up fa-angle-down'));
+            })
+        });
+
+        $('#user_comments_button').click(function() {
+            var $target_row = $('#user_comments_row');
+            var $button = $(this);
+            var icon = $(this).children("i");
+
+            $target_row.slideToggle(10, function() {
+                $button.text(($target_row.is(':visible') ? ' Hide' : ' Show More'));
+                $button.prepend(icon.toggleClass('fa-angle-up fa-angle-down'));
+            })
+        });
+
+        $('#post_likes_button').click(function() {
+            var $target_row = $('#post_likes_row');
+            var $button = $(this);
+            var icon = $(this).children("i");
+
+            $target_row.slideToggle(10, function() {
+                $button.text(($target_row.is(':visible') ? ' Hide' : ' Show More'));
+                $button.prepend(icon.toggleClass('fa-angle-up fa-angle-down'));
+            })
+        });
+
+        $('#post_comments_button').click(function() {
+            var $target_row = $('#post_comments_row');
+            var $button = $(this);
+            var icon = $(this).children("i");
+
+            $target_row.slideToggle(10, function() {
+                $button.text(($target_row.is(':visible') ? ' Hide' : ' Show More'));
+                $button.prepend(icon.toggleClass('fa-angle-up fa-angle-down'));
+            })
+        });
+    })
+</script>
+
+{#<script>#}
+{#new Morris.Line({#}
+{#  // ID of the element in which to draw the chart.#}
+{#  element: 'line-chart',#}
+{#  // Chart data records -- each entry in this array corresponds to a point on#}
+{#  // the chart.#}
+{#  data: {{ graph_data }},#}
+{#  // The name of the data record attribute that contains x-values.#}
+{#  xkey: 'date',#}
+{#  // A list of names of data record attributes that contain y-values.#}
+{#  ykeys: ['likes'],#}
+{#  // Labels for the ykeys -- will be displayed when you hover over the#}
+{#  // chart.#}
+{#  labels: ['Likes']#}
+{#});#}
+{#</script>#}
+
+</body>
+</html>

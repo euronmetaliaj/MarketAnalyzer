@@ -1,0 +1,13 @@
+{% for category in categories %}
+    <div class="radio i-checks">
+        <label>
+            <input type="radio" value="{{ category }}" name="category"> {{ category }}
+        </label>
+    </div>
+
+
+{% else %}
+    <div class="text-center">
+        No category found.
+    </div>
+{% endfor %}
