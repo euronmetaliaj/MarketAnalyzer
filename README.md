@@ -1,3 +1,6 @@
+KEYWORDS : FACEBOOK GRAPH API , DATA ANALYTICS, ANALYZER, HEATMAPS , PYTHON , FLASK , MONGO DB 
+
+
 Introduction
 
 1.1 Defining the problem .Is it solved yet ?
